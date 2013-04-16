@@ -9,7 +9,10 @@ define(function (require) {
 		this.tweetCollection = tweetCollection;
 
 		// cached child elements:
+		this.loadMoreButton = this.element.getElementsByClassName("load-more")[0];
 		this.renderedTweetsElement = this.element.getElementsByClassName("rendered-tweets")[0];
+
+		this.loadMoreButton.addEventListener("click", this.get.bind(this));
 	};
 
 	TweetsView.prototype.renderTweet = function (tweet) {
