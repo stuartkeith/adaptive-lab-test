@@ -78,10 +78,17 @@ define(function (require) {
 		this.renderTweets(tweets);
 	};
 
+	TweetsView.prototype.disableUI = function (value) {
+		this.loadMoreButton.disabled = value;
+	};
+
 	TweetsView.prototype.get = function () {
+		this.disableUI(true);
 		this.noUniqueTweetsElement.classList.add("hidden");
 
 		var success = function (tweets, tweetsAdded) {
+			this.disableUI(false);
+
 			if (tweetsAdded.length === 0) {
 				this.noUniqueTweetsElement.classList.remove("hidden");
 			} else {
@@ -90,6 +97,8 @@ define(function (require) {
 		}.bind(this);
 
 		var error = function (request) {
+			this.disableUI(false);
+
 			// TODO
 			console.error("TweetsView.get error:", request);
 		}.bind(this);
