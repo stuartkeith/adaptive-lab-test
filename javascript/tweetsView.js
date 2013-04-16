@@ -1,6 +1,7 @@
 define(function (require) {
 	var Mustache = require("mustache");
 	var tweetTemplate = require("text!templates/tweet.html");
+	var tweetSortFunctions = require("tweetSortFunctions");
 
 	var tweetTemplateCompiled = Mustache.compile(tweetTemplate);
 
@@ -12,8 +13,28 @@ define(function (require) {
 
 		this.loadMoreButton = this.element.getElementsByClassName("load-more")[0];
 		this.renderedTweetsElement = this.element.getElementsByClassName("rendered-tweets")[0];
+		this.sortSelect = this.element.getElementsByClassName("sort-select")[0];
 
 		this.loadMoreButton.addEventListener("click", this.get.bind(this));
+
+		// add sort options to sortSelect:
+
+		this.addTweetSortOption("none", "None");
+
+		for (sortKey in tweetSortFunctions) {
+			if (tweetSortFunctions.hasOwnProperty(sortKey)) {
+				this.addTweetSortOption(sortKey, tweetSortFunctions[sortKey].displayName);
+			}
+		}
+	};
+
+	TweetsView.prototype.addTweetSortOption = function (value, displayName) {
+		var optionElement = document.createElement("option");
+
+		optionElement.innerText = displayName;
+		optionElement.value = value;
+
+		this.sortSelect.appendChild(optionElement);
 	};
 
 	TweetsView.prototype.renderTweet = function (tweet) {
