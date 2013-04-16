@@ -7,6 +7,9 @@ define(function (require) {
 	var TweetsView = function (element, tweetCollection) {
 		this.element = element;
 		this.tweetCollection = tweetCollection;
+
+		// cached child elements:
+		this.renderedTweetsElement = this.element.getElementsByClassName("rendered-tweets")[0];
 	};
 
 	TweetsView.prototype.renderTweet = function (tweet) {
@@ -14,7 +17,7 @@ define(function (require) {
 
 		tweetElement.innerHTML = tweetTemplateCompiled(tweet);
 
-		this.element.appendChild(tweetElement);
+		this.renderedTweetsElement.appendChild(tweetElement);
 	};
 
 	TweetsView.prototype.renderTweets = function (tweets) {
