@@ -17,6 +17,8 @@ define(function (require) {
 
 		this.loadMoreButton.addEventListener("click", this.get.bind(this));
 
+		this.sortSelect.addEventListener("change", this.sortSelectChange.bind(this));
+
 		// add sort options to sortSelect:
 
 		this.addTweetSortOption("none", "None");
@@ -28,6 +30,18 @@ define(function (require) {
 		}
 	};
 
+	TweetsView.prototype.sortSelectChange = function (event) {
+		var selectedIndex = event.target.selectedIndex;
+
+		if (selectedIndex > 0) {
+			var selectedValue = event.target.options[selectedIndex].value;
+
+			var sortSelection = tweetSortFunctions[selectedValue];
+
+			this.sortAndReRender(sortSelection);
+		}
+	};
+
 	TweetsView.prototype.addTweetSortOption = function (value, displayName) {
 		var optionElement = document.createElement("option");
 
@@ -35,6 +49,10 @@ define(function (require) {
 		optionElement.value = value;
 
 		this.sortSelect.appendChild(optionElement);
+	};
+
+	TweetsView.prototype.clearRenderedTweets = function () {
+		this.renderedTweetsElement.innerHTML = "";
 	};
 
 	TweetsView.prototype.renderTweet = function (tweet) {
@@ -48,6 +66,15 @@ define(function (require) {
 
 	TweetsView.prototype.renderTweets = function (tweets) {
 		tweets.forEach(this.renderTweet.bind(this));
+	};
+
+	TweetsView.prototype.sortAndReRender = function (sortSelection) {
+		var tweets = this.tweetCollection.tweets;
+
+		tweets.sort(sortSelection.sortFunction);
+
+		this.clearRenderedTweets();
+		this.renderTweets(tweets);
 	};
 
 	TweetsView.prototype.get = function () {
