@@ -14,6 +14,7 @@ define(function (require) {
 		this.noUniqueTweetsElement = this.element.getElementsByClassName("no-unique-tweets")[0];
 		this.loadMoreButton = this.element.getElementsByClassName("load-more")[0];
 		this.renderedTweetsElement = this.element.getElementsByClassName("rendered-tweets")[0];
+		this.requestErrorElement = this.element.getElementsByClassName("request-error")[0];
 		this.sortSelect = this.element.getElementsByClassName("sort-select")[0];
 
 		this.loadMoreButton.addEventListener("click", this.get.bind(this));
@@ -84,7 +85,9 @@ define(function (require) {
 
 	TweetsView.prototype.get = function () {
 		this.disableUI(true);
+
 		this.noUniqueTweetsElement.classList.add("hidden");
+		this.requestErrorElement.classList.add("hidden");
 
 		var success = function (tweets, tweetsAdded) {
 			this.disableUI(false);
@@ -96,11 +99,11 @@ define(function (require) {
 			}
 		}.bind(this);
 
-		var error = function (request) {
+		var error = function (status, message) {
 			this.disableUI(false);
 
-			// TODO
-			console.error("TweetsView.get error:", request);
+			this.requestErrorElement.textContent = "Error " + status + " (" + message + ")";
+			this.requestErrorElement.classList.remove("hidden");
 		}.bind(this);
 
 		this.tweetCollection.get(success, error);

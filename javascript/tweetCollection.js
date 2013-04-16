@@ -37,7 +37,7 @@ define(function (require) {
 
 	TweetCollection.prototype.get = function (success, error) {
 		// success: function(total tweets, new tweets)
-		// error: the XmlHttpRequest.
+		// error: function(status, message)
 
 		var getTweetsSuccess = function (tweets) {
 			var tweetsAdded = this.addTweets(tweets);
@@ -46,7 +46,22 @@ define(function (require) {
 				success(this.tweets, tweetsAdded);
 		}.bind(this);
 
-		getTweets(getTweetsSuccess, error);
+		var getTweetsError = function (request) {
+			if (error) {
+				var message;
+				var status = "" + request.status; // convert to string
+
+				if (request.status === 0) {
+					message = "Internal browser error";
+				} else {
+					message = "'" + JSON.parse(request.responseText).error.message + "'";
+				}
+
+				error(status, message);
+			}
+		}.bind(this);
+
+		getTweets(getTweetsSuccess, getTweetsError);
 	};
 
 	return TweetCollection;
