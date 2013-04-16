@@ -10,6 +10,10 @@ define(function (require) {
 					if (success) {
 						var jsonObject = JSON.parse(xmlHttpRequest.responseText);
 
+						jsonObject.forEach(function (tweet) {
+							tweet.created_at_date = new Date(tweet.created_at);
+						});
+
 						success(jsonObject);
 					}
 				} else if (error) {
