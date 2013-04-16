@@ -11,6 +11,7 @@ define(function (require) {
 
 		// cached child elements:
 
+		this.noUniqueTweetsElement = this.element.getElementsByClassName("no-unique-tweets")[0];
 		this.loadMoreButton = this.element.getElementsByClassName("load-more")[0];
 		this.renderedTweetsElement = this.element.getElementsByClassName("rendered-tweets")[0];
 		this.sortSelect = this.element.getElementsByClassName("sort-select")[0];
@@ -78,10 +79,11 @@ define(function (require) {
 	};
 
 	TweetsView.prototype.get = function () {
+		this.noUniqueTweetsElement.classList.add("hidden");
+
 		var success = function (tweets, tweetsAdded) {
 			if (tweetsAdded.length === 0) {
-				// TODO
-				console.error("No tweets to add.");
+				this.noUniqueTweetsElement.classList.remove("hidden");
 			} else {
 				this.renderTweets(tweetsAdded);
 			}

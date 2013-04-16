@@ -5,3 +5,11 @@
 	padding: 0.5em;
 	width: 16em;
 }
+
+.hidden {
+	display: none;
+}
+
+.error {
+	color: red;
+}
