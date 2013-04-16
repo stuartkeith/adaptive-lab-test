@@ -18,6 +18,7 @@ define(function (require) {
 	TweetsView.prototype.renderTweet = function (tweet) {
 		var tweetElement = document.createElement("article");
 
+		tweetElement.classList.add("tweet");
 		tweetElement.innerHTML = tweetTemplateCompiled(tweet);
 
 		this.renderedTweetsElement.appendChild(tweetElement);
