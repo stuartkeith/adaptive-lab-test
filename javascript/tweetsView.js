@@ -47,7 +47,7 @@ define(function (require) {
 	TweetsView.prototype.addTweetSortOption = function (value, displayName) {
 		var optionElement = document.createElement("option");
 
-		optionElement.innerText = displayName;
+		optionElement.textContent = displayName;
 		optionElement.value = value;
 
 		this.sortSelect.appendChild(optionElement);
