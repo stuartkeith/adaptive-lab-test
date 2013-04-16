@@ -6,6 +6,14 @@
 	width: 16em;
 }
 
+.user-handle {
+	font-weight: bold;
+}
+
+.message {
+	font-style: italic;
+}
+
 .hidden {
 	display: none;
 }
